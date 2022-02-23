@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 enum TooltipDirection { up, down, left, right }
 enum ShowCloseButton { inside, outside, none }
@@ -152,7 +151,7 @@ class SuperTooltip {
   ///
   /// Enable background overlay
   final bool containsBackgroundOverlay;
-  
+
   ///
   /// The parameter chooses popupDirection automatically by axis Y
   final bool automaticallyVerticalDirection;
@@ -232,10 +231,9 @@ class SuperTooltip {
     if (containsBackgroundOverlay) {
       late Widget background;
 
-      var shapeOverlay = _ShapeOverlay(touchThrougArea, touchThroughAreaShape,
-          touchThroughAreaCornerRadius, outsideBackgroundColor);
-      final backgroundDecoration =
-          DecoratedBox(decoration: ShapeDecoration(shape: shapeOverlay));
+      var shapeOverlay =
+          _ShapeOverlay(touchThrougArea, touchThroughAreaShape, touchThroughAreaCornerRadius, outsideBackgroundColor);
+      final backgroundDecoration = DecoratedBox(decoration: ShapeDecoration(shape: shapeOverlay));
 
       if (dismissOnTapOutside && blockOutsidePointerEvents) {
         background = GestureDetector(
@@ -269,9 +267,9 @@ class SuperTooltip {
                 ),
               ));
     }
-    
+
     if (automaticallyVerticalDirection) {
-      if (_targetCenter!.dy > overlay!.size.center(Offset.zero).dy) {
+      if (_targetCenter!.dy > (overlay.context.size?.center(Offset.zero).dy ?? 0)) {
         popupDirection = TooltipDirection.up;
       } else {
         popupDirection = TooltipDirection.down;
@@ -351,7 +349,13 @@ class SuperTooltip {
         decoration: ShapeDecoration(
             color: backgroundColor,
             shadows: hasShadow
-                ? [BoxShadow(color: shadowColor, offset: shadowOffset ?? Offset.zero,blurRadius: shadowBlurRadius, spreadRadius: shadowSpreadRadius)]
+                ? [
+                    BoxShadow(
+                        color: shadowColor,
+                        offset: shadowOffset ?? Offset.zero,
+                        blurRadius: shadowBlurRadius,
+                        spreadRadius: shadowSpreadRadius)
+                  ]
                 : null,
             shape: _BubbleShape(popupDirection, _targetCenter, borderRadius, arrowBaseWidth, arrowTipDistance,
                 borderColor, borderWidth, left, top, right, bottom)),
